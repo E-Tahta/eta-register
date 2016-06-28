@@ -1,8 +1,11 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets network
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    bridge.cpp \
+    requestmanager.cpp \
+    networkmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -11,3 +14,8 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+HEADERS += \
+    bridge.h \
+    requestmanager.h \
+    networkmanager.h

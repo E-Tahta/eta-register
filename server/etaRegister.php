@@ -55,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $data["result"] = "Unknown Request Type";
     }
     $data["mac_id"] = "";
-    $data["request_type"] = "";
     echo json_encode($data);
 } else {
     http_response_code(405);
