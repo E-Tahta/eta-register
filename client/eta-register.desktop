@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=Eta-Register
+Name[tr]=Eta-Kayıt
+Type=Application
+Comment=Interactive White Board Registration Tool
+Comment[tr]=Etkileşimli Tahta Kayıt Aracı
+Terminal=false
+Exec=/usr/bin/eta-register-wrap.sh
+Icon=/usr/share/eta/eta-register/icon/register.svg
+Categories=Qt;Utility;
+GenericName=Interactive White Board Registration Tool
+GenericName[tr]=Etkileşimli Tahta Kayıt Aracı
+X-KDE-Autostart-enabled=true
+

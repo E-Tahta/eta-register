@@ -1,0 +1,19 @@
+Source: eta-register
+Section: utils
+Priority: optional
+Maintainer: Hikmet Baş <hikmet.bas@pardus.org.tr>
+Build-Depends: debhelper (>= 9), libc6, libgcc1, libgl1-mesa-glx | libgl1, libqt5core5a, libqt5gui5, libqt5widgets5, libstdc++6, libqt5svg5-dev
+Standards-Version: 3.9.6
+Homepage: http://pardus.org.tr
+
+Package: eta-register
+Architecture: amd64
+Depends: ${shlibs:Depends}, 
+    ${misc:Depends}, 
+    libqt5svg5,
+    qml-module-qtquick-controls, 
+    qml-module-qtquick-window2, 
+    qml-module-qtquick2,
+    qml-module-qtquick-xmllistmodel
+Description: Pardus Kurumsal 5 - Etkileşimli Tahta Arayüzü Envanter Kayıt Programı
+ Okul bazlı tahtaların uzak kayıtlarının yapılması için geliştirilmiştir.
