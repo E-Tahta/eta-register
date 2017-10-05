@@ -32,7 +32,7 @@ icon.path = /usr/share/eta/eta-register/icon/
 desktop_file.files = eta-register.desktop
 desktop_file.path = /usr/share/applications/
 
-auto_start.files = eta-register.desktop
+auto_start.files = eta-register-autostart.desktop
 auto_start.commands = mkdir -p /etc/xdg/autostart
 auto_start.path = /etc/xdg/autostart/
 
