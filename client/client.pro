@@ -6,20 +6,19 @@ SOURCES += src/main.cpp \
     src/bridge.cpp \
     src/requestmanager.cpp \
     src/networkmanager.cpp \
-    src/singleinstance.cpp
+    src/singleinstance.cpp \
+    src/detectiwb.cpp
 
 RESOURCES += qml.qrc images.qrc
 
 QML_IMPORT_PATH =
 
-# Default rules for deployment.
-include(deployment.pri)
-
 HEADERS += \
     src/bridge.h \
     src/requestmanager.h \
     src/networkmanager.h \
-    src/singleinstance.h
+    src/singleinstance.h \
+    src/detectiwb.h
 
 TARGET = eta-register
 
@@ -40,3 +39,5 @@ register_wrap.files = eta-register-wrap.sh
 register_wrap.path = /usr/bin/
 
 INSTALLS += target icon desktop_file auto_start register_wrap
+
+LIBS += -lusb

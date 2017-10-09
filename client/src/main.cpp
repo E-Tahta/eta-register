@@ -17,19 +17,27 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-
+#include "src/bridge.h"
+#include "src/singleinstance.h"
+#include "src/detectiwb.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QIcon>
 #include <QCursor>
-#include "bridge.h"
-#include "singleinstance.h"
+
 #define ICONPATH "/usr/share/eta/eta-register/register.svg"
 #define SINGLE_INSTANCE ".eta-register"
 
 int main(int argc, char *argv[])
 {
+    DetectIWB *iwb = new DetectIWB();
+
+    if (!iwb->isIWB()) {
+        qDebug() << "Could not detect IWB aborting";
+        return 0;
+    }
+
     qmlRegisterType<Bridge>("eta.bridge",1,0,"Bridge");
     QApplication::setWindowIcon( QIcon(ICONPATH) );
     QApplication app(argc, argv);
