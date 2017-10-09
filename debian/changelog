@@ -1,3 +1,9 @@
+eta-register (0.2.4) unstable; urgency=medium
+
+  * Fix icon path
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Mon, 09 Oct 2017 12:23:15 +0000
+
 eta-register (0.2.3) unstable; urgency=medium
 
   * Fix dependency problem
