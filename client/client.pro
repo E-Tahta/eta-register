@@ -38,3 +38,5 @@ auto_start.path = /etc/xdg/autostart/
 INSTALLS += target icon desktop_file auto_start
 
 LIBS += -lusb
+CONFIG += c++11
+
