@@ -1,3 +1,12 @@
+eta-register (0.2.2) unstable; urgency=medium
+
+  * Fix autostart file
+  * Update changelog for 0.2.1 release
+  * Add interactive whiteboard detection
+  * Delete eta-register-wrap
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Mon, 09 Oct 2017 10:42:36 +0000
+
 eta-register (0.2.1) unstable; urgency=medium
 
   * Fix autostart file
