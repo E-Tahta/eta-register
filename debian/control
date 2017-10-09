@@ -14,6 +14,7 @@ Depends: ${shlibs:Depends},
     qml-module-qtquick-controls, 
     qml-module-qtquick-window2, 
     qml-module-qtquick2,
-    qml-module-qtquick-xmllistmodel
+    qml-module-qtquick-xmllistmodel,
+    libusb-dev
 Description: Pardus Kurumsal 5 - Etkileşimli Tahta Arayüzü Envanter Kayıt Programı
  Okul bazlı tahtaların uzak kayıtlarının yapılması için geliştirilmiştir.
