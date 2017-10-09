@@ -1,3 +1,10 @@
+eta-register (0.2.3) unstable; urgency=medium
+
+  * Fix dependency problem
+  * Enable C++11
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Mon, 09 Oct 2017 11:06:13 +0000
+
 eta-register (0.2.2) unstable; urgency=medium
 
   * Fix autostart file
