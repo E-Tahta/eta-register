@@ -35,9 +35,6 @@ auto_start.files = eta-register-autostart.desktop
 auto_start.commands = mkdir -p /etc/xdg/autostart
 auto_start.path = /etc/xdg/autostart/
 
-register_wrap.files = eta-register-wrap.sh
-register_wrap.path = /usr/bin/
-
-INSTALLS += target icon desktop_file auto_start register_wrap
+INSTALLS += target icon desktop_file auto_start
 
 LIBS += -lusb

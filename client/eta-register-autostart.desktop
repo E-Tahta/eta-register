@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=Eta-Register
-Exec=/usr/bin/eta-register-wrap.sh
+Exec=/usr/bin/eta-register
 Terminal=false
 Type=Application
 Categories=
