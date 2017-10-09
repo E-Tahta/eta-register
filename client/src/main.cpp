@@ -26,7 +26,7 @@
 #include <QIcon>
 #include <QCursor>
 
-#define ICONPATH "/usr/share/eta/eta-register/register.svg"
+#define ICONPATH "/usr/share/eta/eta-register/icon/register.svg"
 #define SINGLE_INSTANCE ".eta-register"
 
 int main(int argc, char *argv[])
