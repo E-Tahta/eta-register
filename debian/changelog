@@ -1,3 +1,9 @@
+eta-register (0.2.5) unstable; urgency=medium
+
+  * Add PURSAKLAR to towns list
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Tue, 27 Mar 2018 10:39:29 +0000
+
 eta-register (0.2.4) unstable; urgency=medium
 
   * Fix icon path
