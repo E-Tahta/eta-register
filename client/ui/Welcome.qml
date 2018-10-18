@@ -22,13 +22,19 @@ import QtQuick 2.0
 
 Item {
 
-    Image {
-        id: pardus
-        source: "Images/background.jpg"
-        height: parent.height
+    Item {
+        id: topContainer
         width: parent.width
-        anchors.centerIn: parent
-        opacity: 1
+        height: parent.height / 2
+
+        Text {
+            id: txtMessage
+            text: message
+            font.bold: true
+            color: main.textColor
+            font.pointSize: main.messageTextSize
+            anchors.centerIn: parent
+        }
     }
 
     Column {
@@ -37,20 +43,6 @@ Item {
         anchors.centerIn: parent
         spacing: main.spacing
 
-        Item {
-            id: topContainer
-            width: parent.width
-            height: 40
-
-            Text {
-                id: txtMessage
-                text: message
-                font.bold: true
-                color: main.textColor
-                font.pointSize: main.messageTextSize
-                anchors.centerIn: parent
-            }
-        }
 
         Rectangle {
             id: btnContinue

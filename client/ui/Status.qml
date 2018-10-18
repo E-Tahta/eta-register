@@ -23,15 +23,6 @@ import QtQuick.Controls 1.2
 
 Item {
 
-    Image {
-        id: pardus
-        source: "Images/background.jpg"
-        height: parent.height
-        width: parent.width
-        anchors.centerIn: parent
-        opacity: 1
-    }
-
     ToolButton {
         id: btnClose
         iconSource: "Images/close.svg"

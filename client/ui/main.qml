@@ -32,10 +32,9 @@ ApplicationWindow {
     height: Screen.height / 2
     title: "Eta Kayıt"
 
-    opacity: 0.95
-    color: "grey"
-    x: main.width * 2 / 5
-    y: main.height / 2
+    color: "#383838"
+    x: Screen.width / 2 - main.width / 2
+    y: Screen.height / 2 - main.height / 2
 
     flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
@@ -46,7 +45,7 @@ ApplicationWindow {
     property int spacing: 10
     property int rad : 5
     property bool busy: true
-    property string message: "ETAP'a Hoş Geldiniz..."
+    property string message: "Pardus Etkileşimli Tahta Arayüzü'ne Hoş Geldiniz"
     property string subMessage: "Etkileşimli tahta envanter kaydı"
     property string confirmMessage: "Lütfen gönderilecek bilgileri onaylayın"
 
@@ -70,8 +69,8 @@ ApplicationWindow {
     property bool success: false
     property bool citiesReady: false
 
-    property string btnYesColor : "#FF6C00"
-    property string btnNoColor: "#0176A1"
+    property string btnYesColor : "#5294E2"
+    property string btnNoColor: "#FF6C00"
 
     function fillCities(){
         cityModel.clear()
@@ -190,7 +189,7 @@ ApplicationWindow {
                 main.busy = false
                 timer.stop()
                 main.imageSource = "Images/failed.svg"
-                mainstatusMessage = "Sunucularımız kısa bir süreliğine meşgul\n"+
+                main.statusMessage = "Sunucularımız kısa bir süreliğine meşgul\n"+
                         "Bir süre sonra tekrar deneyiniz "
             } else {
                 console.log(result)
