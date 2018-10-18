@@ -1,3 +1,9 @@
+eta-register (0.2.8) unstable; urgency=medium
+
+  * Change launch position of application
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Thu, 18 Oct 2018 14:07:36 +0000
+
 eta-register (0.2.7) unstable; urgency=medium
 
   * Fix build dependency
