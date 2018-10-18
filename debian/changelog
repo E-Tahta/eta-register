@@ -1,3 +1,10 @@
+eta-register (0.2.6) unstable; urgency=medium
+
+  * Change design
+  * Pardus CI integration
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Thu, 18 Oct 2018 06:07:39 +0000
+
 eta-register (0.2.5) unstable; urgency=medium
 
   * Add PURSAKLAR to towns list
