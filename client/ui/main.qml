@@ -33,8 +33,9 @@ ApplicationWindow {
     title: "Eta Kayıt"
 
     color: "#383838"
-    x: Screen.width / 2 - main.width / 2
-    y: Screen.height / 2 - main.height / 2
+
+    x: Screen.width - (main.width + Screen.desktopAvailableWidth) / 2
+    y: Screen.height - (main.height + Screen.desktopAvailableHeight) / 2
 
     flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
