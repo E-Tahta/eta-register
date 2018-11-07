@@ -82,8 +82,7 @@ Item {
             id:code
             width: parent.width
             height: 60
-            maximumLength: 6
-            placeholderText: "Tesis kodunuzu giriniz"
+            placeholderText: "Kurum/Tesis kodunuzu giriniz"
             onFocusChanged: {
                 if(code.focus) {
                     bridge.showKeyboard()

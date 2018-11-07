@@ -40,7 +40,7 @@ ApplicationWindow {
     flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
     property int buttonSize: 30
-    property int buttonTextSize: 10
+    property int buttonTextSize: 12
     property int messageTextSize: 15
     property int textSize: 12
     property int spacing: 10
