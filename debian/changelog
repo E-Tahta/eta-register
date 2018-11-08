@@ -1,3 +1,9 @@
+eta-register (0.2.12) unstable; urgency=medium
+
+  * Fix facility code issue
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Thu, 08 Nov 2018 14:20:40 +0000
+
 eta-register (0.2.11) unstable; urgency=medium
 
   * Revoke ogrenci user permission to run eta-register
