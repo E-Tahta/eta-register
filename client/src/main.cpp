@@ -38,6 +38,15 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    QString uname = qgetenv("USER");
+    if (uname.isEmpty())
+        uname = qgetenv("USERNAME");
+
+    if (uname.compare("ogrenci") == 0) {
+        qDebug() << "Ogrenci is not allowed to use eta-register";
+        return 0;
+    }
+
     qmlRegisterType<Bridge>("eta.bridge",1,0,"Bridge");
     QApplication::setWindowIcon( QIcon(ICONPATH) );
     QApplication app(argc, argv);
