@@ -1,3 +1,9 @@
+eta-register (0.2.11) unstable; urgency=medium
+
+  * Revoke ogrenci user permission to run eta-register
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Thu, 08 Nov 2018 13:54:28 +0000
+
 eta-register (0.2.10) unstable; urgency=medium
 
   * UI enhancements
