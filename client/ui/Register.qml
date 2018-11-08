@@ -83,6 +83,7 @@ Item {
             width: parent.width
             height: 60
             placeholderText: "Kurum/Tesis kodunuzu giriniz"
+            maximumLength: 8
             onFocusChanged: {
                 if(code.focus) {
                     bridge.showKeyboard()
@@ -142,16 +143,14 @@ Item {
                         if (Func.checkText(main.city)){
                             if (Func.checkText(main.town)) {
                                 if (Func.checkText(main.school)) {
-                                    if (Func.checkCode(main.code)) {
-                                        txtError.text = ""
-                                        stackView.push(confirm)
-                                        bridge.showKeyboard()
-                                    } else {
-                                        txtError.text = main.errorCode
-                                    }
+
+                                    txtError.text = ""
+                                    stackView.push(confirm)
+                                    bridge.showKeyboard()
+
                                 } else {
                                     txtError.text = main.errorEmptyFields
-                               }
+                                }
                             } else {
                                 txtError.text = main.errorEmptyFields
                             }

@@ -51,7 +51,6 @@ ApplicationWindow {
     property string confirmMessage: "Lütfen gönderilecek bilgileri onaylayın"
 
     property string registerMessage: "Lütfen gerekli bilgileri doldurun"
-    property string errorCode: "Hatalı tesis kodu"
     property string errorEmptyFields : "Tüm alanların eksiksiz "+
                                        "doldurulması zorunludur"
     property string city
