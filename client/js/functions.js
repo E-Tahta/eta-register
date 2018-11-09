@@ -27,3 +27,9 @@ function checkText(text) {
     var re= /^\s+$|^$/
     return !re.test(text)
 }
+
+function checkCode(text) {
+    var re= /^\d+$/
+    var n = text.length
+    return re.test(text) && (n >= 6 && n<=8)
+}

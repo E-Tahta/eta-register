@@ -143,11 +143,13 @@ Item {
                         if (Func.checkText(main.city)){
                             if (Func.checkText(main.town)) {
                                 if (Func.checkText(main.school)) {
-
-                                    txtError.text = ""
-                                    stackView.push(confirm)
-                                    bridge.showKeyboard()
-
+                                    if (Func.checkCode(main.code)) {
+                                        txtError.text = ""
+                                        stackView.push(confirm)
+                                        bridge.showKeyboard()
+                                    } else {
+                                        txtError.text = main.errorCode
+                                    }
                                 } else {
                                     txtError.text = main.errorEmptyFields
                                 }
