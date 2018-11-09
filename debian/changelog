@@ -1,3 +1,9 @@
+eta-register (0.2.13) unstable; urgency=medium
+
+  * Fix facility code lenght control
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Fri, 09 Nov 2018 11:03:29 +0000
+
 eta-register (0.2.12) unstable; urgency=medium
 
   * Fix facility code issue
