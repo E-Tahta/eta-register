@@ -67,9 +67,9 @@ void AdditionalDataCollector::getTouchInfo()
     for (bus = usb_busses; bus; bus = bus->next) {
         for (dev = bus->devices; dev; dev = dev->next) {
             if (vendors[0] == dev->descriptor.idVendor) {
-                touch = "6615";
+                touch = "2 point optic touch";
             } else if (vendors[1] == dev->descriptor.idVendor) {
-                touch = "2621";
+                touch = "4 point optic touch";
             }
         }
     }
