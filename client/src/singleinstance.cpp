@@ -36,11 +36,7 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
         socket.waitForBytesWritten();
         return true;
     }
-
-    qDebug() << socket.errorString();
-
     return false;
-
 }
 
 void SingleInstance::newConnection()

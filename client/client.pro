@@ -1,13 +1,17 @@
 TEMPLATE = app
 
-QT += qml quick widgets network dbus
+QT += qml quick widgets network dbus sql
 
 SOURCES += src/main.cpp \
     src/bridge.cpp \
     src/requestmanager.cpp \
     src/networkmanager.cpp \
     src/singleinstance.cpp \
-    src/detectiwb.cpp
+    src/detectiwb.cpp \
+    src/databasemanager.cpp \
+    src/additionaldatacollector.cpp \
+    src/watchdistro.cpp \
+    src/fileio.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -18,7 +22,11 @@ HEADERS += \
     src/requestmanager.h \
     src/networkmanager.h \
     src/singleinstance.h \
-    src/detectiwb.h
+    src/detectiwb.h \
+    src/databasemanager.h \
+    src/additionaldatacollector.h \
+    src/watchdistro.h \
+    src/fileio.h
 
 TARGET = eta-register
 
@@ -38,5 +46,7 @@ auto_start.path = /etc/xdg/autostart/
 INSTALLS += target icon desktop_file auto_start
 
 LIBS += -lusb
+LIBS += -lcurl
 CONFIG += c++11
+CONFIG += console
 

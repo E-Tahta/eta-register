@@ -20,13 +20,28 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import eta.bridge 1.0
 import "../js/functions.js" as Func
 
 Item {
 
+    function gotInfo(errorType) {
+        switch (errorType) {
+        case 0:
+            txtError.text = main.errorDatabase
+            break
+        case 1:
+            txtError.text = main.codeNotFound
+            manuelEntry.visible = true
+            break
+        case 2:
+            txtError.text = main.errorDatabase // city not found
+        }
+    }
+
     Column {
         width: parent.width / 2
-        height: parent.height  * 2 / 3
+        height: parent.height  / 2
         anchors.centerIn: parent
         spacing: main.spacing
 
@@ -40,49 +55,11 @@ Item {
             color: main.textColor
         }
 
-        ComboBox {
-            id: city
-            width: parent.width
-            height: 60
-            model: cityModel
-            onCurrentIndexChanged: {
-                main.currIndex = currentIndex
-                main.fillTowns()
-                main.cityCode = xmlCities.get(currentIndex) ?
-                            xmlCities.get(currentIndex).id : main.cityCode
-                if (main.cityCode.length == 1) {
-                    main.cityCode = "0"+main.cityCode
-                }
-            }
-
-        }
-
-        ComboBox {
-            id: town
-            width: parent.width
-            height: 60
-            model: townsModel
-
-        }
-
-        TextField {
-            id:school
-            width: parent.width
-            height: 60
-            placeholderText: "Okul adını giriniz"
-            maximumLength: 100
-            onFocusChanged: {
-                if(school.focus) {
-                    bridge.showKeyboard()
-                }
-            }
-        }
 
         TextField {
             id:code
             width: parent.width
             height: 60
-            text: main.code
             placeholderText: "Kurum/Tesis kodunuzu giriniz"
             maximumLength: 8
             onFocusChanged: {
@@ -136,42 +113,27 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        main.city = city.currentText
-                        main.town = town.currentText
-                        main.school = school.text.trim().toUpperCase()
                         main.code = code.text.trim()
-
-                        if (Func.checkText(main.city)){
-                            if (Func.checkText(main.town)) {
-                                if (Func.checkText(main.school)) {
-                                    if (Func.checkCode(main.code)) {
-                                        txtError.text = ""
-                                        stackView.push(confirm)
-                                        bridge.showKeyboard()
-                                    } else {
-                                        txtError.text = main.errorCode
-                                    }
-                                } else {
-                                    txtError.text = main.errorEmptyFields
-                                }
-                            } else {
-                                txtError.text = main.errorEmptyFields
-                            }
+                        if (Func.checkCode(main.code)) {
+                            bridge.getData(main.code);
                         } else {
-                            txtError.text = main.errorEmptyFields
+                            txtError.text = main.errorCode
                         }
                     }
                 }
             }
         }
+
         Item {
             id: container
             width: parent.width
-            height: 20
+            height: 40
 
             Text {
                 id: txtError
                 color: "red"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
                 opacity: 0
                 anchors.centerIn: parent
                 onTextChanged: {
@@ -179,6 +141,43 @@ Item {
                 }
             }
         }
+
+        Item {
+            id: manuelEntry
+            width: parent.width
+            height: 80
+            visible: false
+            Rectangle {
+                id: btnManuelEntry
+                height: 60
+                width: parent.width / 2
+                color: main.btnEditColor
+                radius: main.rad
+
+                anchors.centerIn: parent
+
+                Text {
+                    id: txtManuelEntry
+                    text: "Bilgileri el ile gir"
+                    font.bold: true
+                    font.pointSize: main.buttonTextSize
+                    anchors.centerIn: parent
+                    color: "white"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        stackView.push(register)
+                    }
+                }
+            }
+        }
+    }
+    Component.onCompleted: {
+        bridge.onDbError.connect(gotInfo)
     }
 }
+
+
 

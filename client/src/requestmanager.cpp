@@ -38,10 +38,19 @@ RequestManager::RequestManager(QObject *parent) :
             this, SLOT(requestFinished(QNetworkReply*)));
 }
 
-void RequestManager::doesMacIdExist(const QString &mac_id)
+
+void RequestManager::doesMacIdExist(const QString &mac_id,
+                                    const QString &touch,
+                                    const QString &cpu)
 {
     QJsonObject data;
     data.insert("mac_id", mac_id);
+    data.insert("city", "");
+    data.insert("town", "");
+    data.insert("school", "");
+    data.insert("code", "");
+    data.insert("cpu", cpu);
+    data.insert("touch", touch);
     data.insert("request_type",EXISTS);
     data.insert("result","");
     nam->post(*request, QJsonDocument(data).toJson());
@@ -49,7 +58,8 @@ void RequestManager::doesMacIdExist(const QString &mac_id)
 
 void RequestManager::insertData(const QString& mac_id,const QString& city,
                                 const QString& town, const QString& school,
-                                const QString& code)
+                                const QString& code, const QString &cpu,
+                                const QString &touch)
 {
     QJsonObject data;
     data.insert("mac_id", mac_id);
@@ -57,8 +67,11 @@ void RequestManager::insertData(const QString& mac_id,const QString& city,
     data.insert("town", town);
     data.insert("school", school);
     data.insert("code", code);
+    data.insert("cpu", cpu);
+    data.insert("touch", touch);
     data.insert("request_type",INSERT);
     data.insert("result","");
+
     nam->post(*request, QJsonDocument(data).toJson());
 }
 
@@ -69,5 +82,6 @@ void RequestManager::requestFinished(QNetworkReply *r)
     QJsonObject response = response_doc.object();
     bool b = response.value("result").toBool();
     QString s = response.value("request_type").toString();
+
     emit gotResult(s,b);
 }

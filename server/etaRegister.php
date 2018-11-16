@@ -8,7 +8,7 @@
 header('Content-type: application/json; charset=utf-8"');
 setlocale(LC_ALL, 'tr_TR.UTF-8');
 
-include "dbConnection.php";
+#include "dbConnection.php";
 
 $data = (object) array(
     "request_type" => "",
@@ -17,18 +17,22 @@ $data = (object) array(
     "city" => "",
     "town" => "",
     "school" => "",
-    "code" => ""
+    "code" => "",
+    "cpu" => "",
+    "touch" => ""
 );
 
 $EXISTS = "0";
 $INSERT = "1";
+$CHECK = "2";
+$UPDATE = "3";
 
-$dbc = new DataBaseConnection();
-$servername = $dbc->getServername();
-$username = $dbc->getUsername();
-$password = $dbc->getPassword();
-$dbname = $dbc->getDbname();
-$conn = new mysqli($servername, $username, $password, $dbname);
+#$dbc = new DataBaseConnection();
+#$servername = $dbc->getServername();
+#$username = $dbc->getUsername();
+#$password = $dbc->getPassword();
+#$dbname = $dbc->getDbname();
+$conn = new mysqli("localhost", "hikmet", "V5aKHYY", "etaregister");
 
 if ($conn->connect_error) {
     echo "DATABASE CONNECTION ERROR";
@@ -53,9 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = $dbc->getInsertSql($data["city"], $data["town"], $data["school"],
             $data["code"], $data["mac_id"]);
         $data["result"] = mysqli_query($conn,$sql);
+    } else if($data["request_type"]==$CHECK){
+        $data["result"] = "Unknown Request Type";
     } else {
         $data["result"] = "Unknown Request Type";
     }
+
+
     $data["mac_id"] = "";
     echo json_encode($data);
 } else {

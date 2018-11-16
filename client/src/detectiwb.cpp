@@ -20,7 +20,6 @@ DetectIWB::DetectIWB(QObject *parent) : QObject(parent),
     }
 }
 
-
 bool DetectIWB::isIWB()
 {
     return this->found;

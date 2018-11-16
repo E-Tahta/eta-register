@@ -21,36 +21,68 @@
 #include "bridge.h"
 #include "networkmanager.h"
 #include "requestmanager.h"
+#include "databasemanager.h"
+#include "additionaldatacollector.h"
+#include "watchdistro.h"
+
 #include <QDBusConnection>
 #include <QDBusInterface>
+#include <QDebug>
+
+#define DATABASE_PATH "/usr/share/eta/eta-register/register.db"
 
 Bridge::Bridge(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    resultStr("unknown"),
+    touch("0"),
+    cpu("0"),
+    mac("")
 {
-    resultStr = "unkown";
     nm = new NetworkManager(this);
     rm = new RequestManager(this);
+    dbm = new DatabaseManager(this);
+    adc = new AdditionalDataCollector(this);
+    wd = new WatchDistro(this);
+
+    if (adc != NULL) {
+        adc->collectAdditionalInfos();
+    }
+
+    if (wd != NULL) {
+        wd->watch();
+    }
+
+    if (nm != NULL) {
+        nm->setMac();
+    }
+
+    touch = adc->getTouch();
+    cpu = adc->getCpu();
+    mac = nm->getMac();
 
     connect(rm,SIGNAL(gotResult(QString,bool)),
             this,SLOT(gotResult(QString,bool)));
+    connect(dbm,SIGNAL(infoCollected(QStringList)),
+            this,SIGNAL(infoCollected(QStringList)));
+    connect(dbm,SIGNAL(dbError(int)),
+            this,SIGNAL(dbError(int)));
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
     qdi = new QDBusInterface("org.eta.virtualkeyboard",
-                                   "/VirtualKeyboard",
-                                   "org.eta.virtualkeyboard",
-                                   dbus,
-                                   this);
-
+                             "/VirtualKeyboard",
+                             "org.eta.virtualkeyboard",
+                             dbus,
+                             this);
 }
 
 Bridge::~Bridge(){
 
 }
 
-void Bridge::sendData(const QString& city, const QString& town,
-                      const QString& school, const QString& code) {
+void Bridge::sendData(const QString &city, const QString &town,
+                      const QString &school, const QString &code) {
 
-    rm->insertData(nm->getMac(), city, town, school, code);
+    rm->insertData(mac, city, town, school, code, cpu, touch);
 
 }
 
@@ -62,7 +94,7 @@ QString Bridge::result() const
 void Bridge::gotResult(QString s, bool b)
 {
     QString out = "";
-    if(s == "0") {        
+    if(s == "0") {
         out = "Request EXISTS is ";
         out += b ? "TRUE" : "FALSE";
         if(b) {
@@ -80,12 +112,22 @@ void Bridge::gotResult(QString s, bool b)
     emit resultRecieved();
 }
 
+void Bridge::unknownMac()
+{
+    resultStr = "Request STATUS is unknownMac";
+    emit close();
+}
+
 void Bridge::isOnline()
 {
     if ( nm-> isOnline() ) {
-        rm->doesMacIdExist(nm->getMac());
+        if (mac == "") {
+            unknownMac();
+        }
+        else
+            rm->doesMacIdExist(mac,touch,cpu);
     } else {
-     //   emit close();
+        emit close();
     }
 }
 
@@ -97,4 +139,9 @@ void Bridge::showKeyboard()
 void Bridge::hideKeyboard()
 {
     qdi->call("hide");
+}
+
+void Bridge::getData(const QString &code)
+{
+    dbm->getInfo(code);
 }

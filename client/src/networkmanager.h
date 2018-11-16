@@ -30,13 +30,14 @@ class NetworkManager : public QObject
 public:
     explicit NetworkManager(QObject *parent = 0);
 
-private:
-    QString Mac;
     void setMac();
+    QString getMac() const;
+
+private:
+    QString mac;
 
 public slots:
     bool isOnline();
-    QString getMac() const;
 
 };
 

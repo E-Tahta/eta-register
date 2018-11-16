@@ -51,9 +51,14 @@ ApplicationWindow {
     property string confirmMessage: "Lütfen gönderilecek bilgileri onaylayın"
 
     property string registerMessage: "Lütfen gerekli bilgileri doldurun"
-    property string errorCode: "Hatalı tesis kodu"
+    property string errorCode: "Hatalı kurum/tesis kodu girdiniz"
     property string errorEmptyFields : "Tüm alanların eksiksiz "+
                                        "doldurulması zorunludur"
+    property string codeNotFound: "Bu tesis koduna ait bilgi bulunamadı.\n"+
+                                  "Bilgileri girmek ister misiniz?"
+    property string errorDatabase: "Veritabanı hatası!!!"
+
+    property string cityID
     property string city
     property string town
     property string school
@@ -72,6 +77,7 @@ ApplicationWindow {
 
     property string btnYesColor : "#5294E2"
     property string btnNoColor: "#FF6C00"
+    property string btnEditColor: "#4CAF50"
 
     function fillCities(){
         cityModel.clear()
@@ -89,7 +95,6 @@ ApplicationWindow {
                 townsModel.append({"name":xmlTowns.get(i).name})
             }
         }
-
     }
 
     XmlListModel {
@@ -129,6 +134,11 @@ ApplicationWindow {
 
     Welcome {
         id: welcome
+        visible: false
+    }
+
+    Code {
+        id: code
         visible: false
     }
 
@@ -175,6 +185,7 @@ ApplicationWindow {
         onClose: {
             Qt.quit();
         }
+
         onResultRecieved: {
 
             var res = result.split(" ");
@@ -196,6 +207,21 @@ ApplicationWindow {
                 console.log(result)
             }
         }
+
+
+        onDbError: {
+
+        }
+
+        onInfoCollected: {
+            main.code = datas[0]
+            main.city = datas[1]
+            main.cityCode = datas[2]
+            main.town = datas[3]
+            main.school = datas[4]
+
+            stackView.push(confirm)
+        }
     }
 
     Timer {
@@ -207,7 +233,6 @@ ApplicationWindow {
             bridge.isOnline()
         }
     }
-
 
     Timer {
         id: timer

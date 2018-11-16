@@ -29,7 +29,8 @@ class QNetworkRequest;
 
 #define EXISTS  "0"
 #define INSERT  "1"
-#define URL "http://etaregister.etap.org.tr/etaRegister.php"
+
+#define URL "http://161.9.195.59/etaRegister.php"
 
 class RequestManager : public QObject
 {
@@ -43,13 +44,16 @@ private:
 
 signals:
     void gotResult(QString s, bool b);
+    void unknownMac();
 
 public slots:
-    void doesMacIdExist(const QString& mac_id);
+    void doesMacIdExist(const QString &mac_id, const QString &touch,
+                        const QString &cpu);
     void requestFinished(QNetworkReply *r);
     void insertData(const QString &mac_id, const QString &city,
-                    const QString& town, const QString& school,
-                    const QString& code);
+                    const QString &town, const QString &school,
+                    const QString &code, const QString &cpu,
+                    const QString &touch);
 
 };
 

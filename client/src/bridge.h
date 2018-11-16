@@ -27,6 +27,9 @@
 class NetworkManager;
 class RequestManager;
 class QDBusInterface;
+class DatabaseManager;
+class AdditionalDataCollector;
+class WatchDistro;
 
 class Bridge : public QObject
 {
@@ -35,29 +38,40 @@ public:
     explicit Bridge(QObject *parent = 0);
     ~Bridge();
 
-    Q_INVOKABLE void sendData(const QString &city, const QString& town,
-                              const QString& school, const QString& code);
+    Q_INVOKABLE void sendData(const QString &city, const QString &town,
+                              const QString &school, const QString &code);
     Q_INVOKABLE void showKeyboard();
     Q_INVOKABLE void hideKeyboard();
+    Q_INVOKABLE void getData(const QString &code);
 
     Q_INVOKABLE void isOnline();
     Q_PROPERTY(QString result READ result
                NOTIFY close NOTIFY showGui NOTIFY resultRecieved)
+
     QString resultStr;
     QString result() const;
 private:
     NetworkManager *nm;
     RequestManager *rm;
     QDBusInterface *qdi;
+    DatabaseManager *dbm;
+    AdditionalDataCollector *adc;
+    WatchDistro *wd;
+    QString touch;
+    QString cpu;
+    QString mac;
 
 private slots:
     void gotResult(QString s, bool b);
-
+    void unknownMac();
 
 signals:
     void close();
     void showGui();
     void resultRecieved();
+    void infoCollected(const QStringList &datas);
+    void dbError(const int &errorType);
+
 public slots:
 
 };

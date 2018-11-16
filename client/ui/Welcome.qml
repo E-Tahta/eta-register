@@ -62,7 +62,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    stackView.push(register)
+                    stackView.push(code)
                 }
             }
         }

@@ -17,53 +17,33 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
+#ifndef FILEIO_H
+#define FILEIO_H
 
-#include "networkmanager.h"
-#include <QList>
-#include <QNetworkInterface>
+#include <QObject>
+#include <QStringList>
 
-NetworkManager::NetworkManager(QObject *parent) :
-    QObject(parent),
-    mac("")
+class QDir;
+class FileIO : public QObject
 {
+    Q_OBJECT
+public:
+    explicit FileIO(QObject *parent = 0);
 
-}
+    QStringList readData();
+    void writeData();
 
-bool NetworkManager::isOnline()
-{
-    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
-    bool result = false;
+signals:
 
-    for (int i = 0; i < ifaces.count(); i++) {
+private:
+    QString filepath;
+    QString filename;
+    QString fullpath;
+    QStringList l;
+    QDir *d;
 
-        QNetworkInterface iface = ifaces.at(i);
-        if ( iface.flags().testFlag(QNetworkInterface::IsUp)
-             && !iface.flags().testFlag(QNetworkInterface::IsLoopBack)) {
+public slots:
 
-            for (int j=0; j<iface.addressEntries().count(); j++) {
-                if (result == false)
-                    result = true;
-            }
-        }
-    }
+};
 
-    return result;
-}
-
-void NetworkManager::setMac()
-{
-    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
-
-    for (int i = 0; i < ifaces.count(); i++) {
-        QNetworkInterface iface = ifaces.at(i);
-        if ( !iface.flags().testFlag(QNetworkInterface::IsLoopBack)
-             && iface.name().contains("eth")) {
-            mac = QString(iface.hardwareAddress().toUtf8());
-        }
-    }
-}
-
-QString NetworkManager::getMac() const
-{
-    return mac;
-}
+#endif // FILEIO_H

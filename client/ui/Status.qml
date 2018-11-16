@@ -112,7 +112,8 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     main.busy = true
-                    bridge.sendData(main.cityCode,main.town,main.school,main.code);
+                    bridge.sendData(main.cityCode,main.town,main.school,
+                                    main.code, main.cpu, main.touchPanel)
                     stackView.push(status)
                     timer.running = true
                 }
