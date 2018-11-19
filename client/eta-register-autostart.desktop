@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Eta-Register
-Exec=/usr/bin/eta-register
-Terminal=false
-Type=Application
-Categories=
-GenericName=
-X-KDE-Autostart-enabled=true
