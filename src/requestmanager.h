@@ -30,7 +30,7 @@ class QNetworkRequest;
 #define EXISTS  "0"
 #define INSERT  "1"
 
-#define URL "http://161.9.195.59/etaRegister.php"
+#define URL "http://etaregister.etap.org.tr/eta-register-server.php"
 
 class RequestManager : public QObject
 {
