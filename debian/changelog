@@ -1,3 +1,19 @@
+eta-register (0.2.14) unstable; urgency=medium
+
+  [ Hikmet Baş ]
+  * Major update
+  * Add database file
+  * Fix build dependency
+  * Change touch device record values
+  * Update school db
+  * Seperate client and server
+  * Update readme
+
+  [ Yunusemre Şentürk ]
+  * Update Server URL
+
+ -- Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>  Tue, 20 Nov 2018 10:52:01 +0300
+
 eta-register (0.2.13) unstable; urgency=medium
 
   * Fix facility code lenght control
