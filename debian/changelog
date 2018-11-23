@@ -1,3 +1,9 @@
+eta-register (0.2.15) unstable; urgency=medium
+
+  * Update db
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Fri, 23 Nov 2018 09:21:32 +0300
+
 eta-register (0.2.14) unstable; urgency=medium
 
   [ Hikmet Baş ]
