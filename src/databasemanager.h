@@ -6,8 +6,6 @@
 #include <QStringList>
 #include <QSqlDatabase>
 
-#define DATABASE_PATH "/usr/share/eta/eta-register/register.db"
-
 class DatabaseManager : public QObject
 {
     Q_OBJECT

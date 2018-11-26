@@ -1,9 +1,10 @@
 #include "databasemanager.h"
-
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QDebug>
+
+#define DATABASE_PATH "/usr/share/eta/eta-register/register.db"
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent),
@@ -29,11 +30,11 @@ void DatabaseManager::DatabaseConnect()
         db = QSqlDatabase::addDatabase(DRIVER);
         db.setDatabaseName(DATABASE_PATH);
         if(!db.open()) {
-            qDebug() << "database connect error " << db.lastError().text();
+            qDebug() << "Database connect error : " << QString(db.lastError().text()).toLatin1().data();
         }
     }
     else {
-        qWarning() << "database driver error " << DRIVER;
+        qWarning() << "Database driver error " << DRIVER;
     }
 
 }

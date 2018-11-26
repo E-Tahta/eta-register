@@ -38,12 +38,12 @@ bool WatchDistro::checkDay()
     if (lastDate.length() > 0) {
         int x = QString::compare(lastDate[0], currentDate, Qt::CaseInsensitive);
         if (x == 0) {
-            qDebug() << "watch true";
+            qDebug() << "Distro is already been watched";
             return true;
         }
     }
 
-    qDebug() << "watch false";
+    qDebug() << "Distro is not watched";
 
     return false;
 }

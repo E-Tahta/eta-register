@@ -63,7 +63,6 @@ private:
 
 private slots:
     void gotResult(QString s, bool b);
-    void unknownMac();
 
 signals:
     void close();

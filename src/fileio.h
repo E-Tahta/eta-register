@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QString>
 
 class QDir;
 class FileIO : public QObject
@@ -32,6 +33,7 @@ public:
 
     QStringList readData();
     void writeData();
+    QString readIWBInfo() const;
 
 signals:
 

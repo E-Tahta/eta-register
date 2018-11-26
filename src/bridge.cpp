@@ -29,8 +29,6 @@
 #include <QDBusInterface>
 #include <QDebug>
 
-#define DATABASE_PATH "/usr/share/eta/eta-register/register.db"
-
 Bridge::Bridge(QObject *parent) :
     QObject(parent),
     resultStr("unknown"),
@@ -112,20 +110,18 @@ void Bridge::gotResult(QString s, bool b)
     emit resultRecieved();
 }
 
-void Bridge::unknownMac()
-{
-    resultStr = "Request STATUS is unknownMac";
-    emit close();
-}
 
 void Bridge::isOnline()
 {
     if ( nm-> isOnline() ) {
         if (mac == "") {
-            unknownMac();
+            qDebug() << "Could not get MAC ID";
+            qDebug() << "Exiting ...";
+            exit(1);
         }
-        else
+        else {
             rm->doesMacIdExist(mac,touch,cpu);
+        }
     } else {
         emit close();
     }

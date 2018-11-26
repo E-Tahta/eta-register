@@ -1,27 +1,33 @@
 #include "detectiwb.h"
-#include <usb.h>
+#include "fileio.h"
 
 DetectIWB::DetectIWB(QObject *parent) : QObject(parent),
-  found(false)
+  m_found(false), m_iwbTouchInfo("Unknown optic touch device")
 {
-    uint16_t vendors[2] = {0x6615,0x2621};
-    struct usb_bus *bus;
-    struct usb_device *dev;
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-    for (bus = usb_busses; bus; bus = bus->next) {
-        for (dev = bus->devices; dev; dev = dev->next) {
-            if (vendors[0] == dev->descriptor.idVendor ||
-                    vendors[1] == dev->descriptor.idVendor) {
-                found = true;
-            }
+    FileIO f;
+    QString info = f.readIWBInfo();
+
+    if(!info.isNull()) {
+        m_found = true;
+        if(info.toUInt() == 2) {
+            m_iwbTouchInfo = "4 point optic touch";
+        } else if (info.toUInt() == 1) {
+            m_iwbTouchInfo = "2 point optic touch";
+        } else {
+            m_found = false;
         }
+    } else {
+        m_found = false;
     }
 }
 
-bool DetectIWB::isIWB()
+bool DetectIWB::isIWB() const
 {
-    return this->found;
+    return m_found;
+}
+
+QString DetectIWB::getIWBType() const
+{
+    return m_iwbTouchInfo;
 }
 

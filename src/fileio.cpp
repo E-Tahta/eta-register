@@ -18,29 +18,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 #include "fileio.h"
-
-
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
 #include <QString>
-
-#include <QDebug>
 #include <QDate>
 
+#include <QDebug>
+
+#define CONFIG_FILE "/.config/eta/eta-register"
+#define IWB_INFO_FILE "/usr/share/eta/eta-check-inputdevice/type-of-iwb"
 
 FileIO::FileIO(QObject *parent) :
     QObject(parent)
 {
-
-    filepath = QDir::homePath() + "/.config/eta/eta-register";
+    d = new QDir(QDir::home());
+    filepath = d->homePath() + QString::fromLatin1(CONFIG_FILE);
     filename = "data.eta";
     fullpath = filepath + "/" + filename;
+
     QFileInfo checkFile(fullpath);
-    d = new QDir(QDir::home());
     if(!checkFile.exists() || !checkFile.isFile()) {
-        qDebug() << "creating config file";
+        qDebug() << "Creating config file";
         d->mkpath(filepath);
         QFile file(fullpath);
         if (file.open(QIODevice::ReadWrite)) {
@@ -96,6 +96,24 @@ void FileIO::writeData()
     } else {
         QTextStream out(&file);
         out << data;
+        file.close();
     }
 
+}
+
+QString FileIO::readIWBInfo() const
+{
+    QString content;
+
+    QFile file(IWB_INFO_FILE);
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&file);
+        content = stream.readAll();
+        file.close();
+    } else {
+        qDebug() << QString(file.errorString() + " : " + file.fileName()).toLatin1().data();
+        qDebug() << "Exiting ...";
+        exit(1);
+    }
+    return content;
 }

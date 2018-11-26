@@ -32,11 +32,11 @@
 
 int main(int argc, char *argv[])
 {
-    DetectIWB *iwb = new DetectIWB();
+    DetectIWB iwb;
 
-    if (!iwb->isIWB()) {
+    if (!iwb.isIWB()) {
         qDebug() << "Could not detect IWB aborting";
-        return 0;
+        return 1;
     }
 
     QString uname = qgetenv("USER");
@@ -61,9 +61,9 @@ int main(int argc, char *argv[])
         return 0;
     }
     if (cInstance.listen(name)) {
-        qDebug() << "creating single instance";
+        qDebug() << "Creating single instance";
     } else {
-        qDebug() << "couldnt create single instance aborting";
+        qDebug() << "Couldnt create single instance aborting";
         return 0;
     }
 

@@ -1,6 +1,5 @@
 #include "additionaldatacollector.h"
-
-#include <usb.h>
+#include "detectiwb.h"
 #include <QDebug>
 #include <QString>
 #include <cpuid.h>
@@ -11,10 +10,10 @@
 
 AdditionalDataCollector::AdditionalDataCollector(QObject *parent) :
     QObject(parent),
-    touch("0"),
-    cpu("0")
+    m_touch("0"),
+    m_cpu("0")
 {
-
+    diwb = new DetectIWB(this);
 }
 
 void AdditionalDataCollector::collectAdditionalInfos()
@@ -52,36 +51,22 @@ void AdditionalDataCollector::getCpuInfo()
     auto it = vendorIdToName.find(vendorIDString);
 
     if (it != vendorIdToName.end()) {
-        cpu = QString::fromStdString(it->second);
+        m_cpu = QString::fromStdString(it->second);
     }
 }
 
 void AdditionalDataCollector::getTouchInfo()
 {
-    uint16_t vendors[2] = {0x6615,0x2621};
-    struct usb_bus *bus;
-    struct usb_device *dev;
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-    for (bus = usb_busses; bus; bus = bus->next) {
-        for (dev = bus->devices; dev; dev = dev->next) {
-            if (vendors[0] == dev->descriptor.idVendor) {
-                touch = "2 point optic touch";
-            } else if (vendors[1] == dev->descriptor.idVendor) {
-                touch = "4 point optic touch";
-            }
-        }
-    }
+    m_touch = diwb->getIWBType();
 }
 
-QString AdditionalDataCollector::getTouch()
+QString AdditionalDataCollector::getTouch() const
 {
-    return touch;
+    return m_touch;
 }
 
-QString AdditionalDataCollector::getCpu()
+QString AdditionalDataCollector::getCpu() const
 {
-    return cpu;
+    return m_cpu;
 }
 

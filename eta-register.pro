@@ -49,6 +49,5 @@ auto_start.path = /etc/xdg/autostart/
 
 INSTALLS += target icon desktop_file database_file auto_start
 
-LIBS += -lusb
 LIBS += -lcurl
 

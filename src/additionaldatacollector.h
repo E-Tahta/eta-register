@@ -2,6 +2,7 @@
 #define ADDITIONALDATACOLLECTOR_H
 
 #include <QObject>
+class DetectIWB;
 
 using namespace std;
 
@@ -12,19 +13,17 @@ public:
     explicit AdditionalDataCollector(QObject *parent = 0);
 
     void collectAdditionalInfos();
-
     void getCpuInfo();
     void getTouchInfo();
 
-    QString touch;
-    QString cpu;
+    QString m_touch;
+    QString m_cpu;
 
-    QString getTouch();
-    QString getCpu();
-
-signals:
+    QString getTouch() const;
+    QString getCpu() const;
 
 private:
+    DetectIWB *diwb;
     struct CPUVendorID {
         unsigned int ebx;
         unsigned int edx;
