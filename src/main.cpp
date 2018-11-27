@@ -20,6 +20,9 @@
 #include "src/bridge.h"
 #include "src/singleinstance.h"
 #include "src/detectiwb.h"
+
+#include <signal.h>
+#include <unistd.h>
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
@@ -29,6 +32,8 @@
 
 #define ICONPATH "/usr/share/eta/eta-register/icon/register.svg"
 #define SINGLE_INSTANCE ".eta-register"
+
+static int setup_unix_signal_handlers();
 
 int main(int argc, char *argv[])
 {
@@ -53,22 +58,68 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
-    QString name = SINGLE_INSTANCE;
+    QString pidName = SINGLE_INSTANCE;
+    QString username = qgetenv("USER");
+    if (username.isEmpty())
+        username = qgetenv("USERNAME");
+    QString tmpPath= "/tmp/";
+    QString pidPath = tmpPath.append(username);
+
+    QDir dir(pidPath);
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    QString name = pidPath.append("/").append(pidName);
+
     SingleInstance cInstance;
+
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
-        qDebug() << "eta-register is allready open";
         return 0;
+        qDebug("eta-register is allready running");
     }
+
     if (cInstance.listen(name)) {
         qDebug() << "Creating single instance";
+        setup_unix_signal_handlers();
     } else {
-        qDebug() << "Couldnt create single instance aborting";
-        return 0;
+        qFatal("Couldn't create single instance aborting");
     }
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 
     return app.exec();
+}
+
+static void handle_signal(int sig)
+{
+    QString pidName = SINGLE_INSTANCE;
+    QString username = qgetenv("USER");
+    if (username.isEmpty())
+        username = qgetenv("USERNAME");
+    QString tmpPath= "/tmp/";
+    QString pidPath = tmpPath.append(username);
+    QString name = pidPath.append("/").append(pidName);
+    QByteArray ba = name.toLatin1();
+    Q_UNUSED(sig);
+    unlink(ba.data());
+    exit(0);
+}
+
+static int setup_unix_signal_handlers()
+{
+    struct sigaction sig;
+    sig.sa_handler = handle_signal;
+    sigemptyset(&sig.sa_mask);
+    sig.sa_flags = 0;
+    sig.sa_flags |= SA_RESTART;
+    if (sigaction(SIGINT, &sig, 0)) {
+        return 1;
+    }
+    if (sigaction(SIGTERM, &sig, 0)) {
+        return 2;
+    }
+    return 0;
 }
