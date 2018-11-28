@@ -234,11 +234,9 @@ ApplicationWindow {
 
     Timer {
         id: keepAlive
-        running: true
+        running: false
         interval: 10000
-        repeat: true
         onTriggered: {
-            keepAlive.stop()
             bridge.isOnline()
         }
     }
