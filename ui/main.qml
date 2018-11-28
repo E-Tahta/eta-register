@@ -177,10 +177,18 @@ ApplicationWindow {
 
     Bridge {
         id:bridge
+
+        onOnline: {
+            keepAlive.stop()
+            bridge.doesExist()
+        }
+
+        onOffline: {
+            keepAlive.start()
+        }
+
         onShowGui: {
             main.visible = true;
-            timer.stop()
-            keepAlive.stop()
         }
         onClose: {
             Qt.quit();
@@ -227,16 +235,17 @@ ApplicationWindow {
     Timer {
         id: keepAlive
         running: true
-        interval: 5000
+        interval: 10000
         repeat: true
         onTriggered: {
+            keepAlive.stop()
             bridge.isOnline()
         }
     }
 
     Timer {
         id: timer
-        running: true
+        running: false
         interval: 10000
         onTriggered: {
             if (main.visible) {
@@ -245,12 +254,6 @@ ApplicationWindow {
                 main.imageSource = "Images/failed.svg"
                 main.statusMessage = "Kayıt sırasında hata oluştu\n"+
                         "Ağ ayarlarınızı kontrol edin"
-            }
-        }
-
-        onRunningChanged: {
-            if (!timer.running) {
-                keepAlive.start()
             }
         }
     }

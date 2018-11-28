@@ -11,7 +11,8 @@ SOURCES += src/main.cpp \
     src/databasemanager.cpp \
     src/additionaldatacollector.cpp \
     src/watchdistro.cpp \
-    src/fileio.cpp
+    src/fileio.cpp \
+    src/logger.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -26,7 +27,8 @@ HEADERS += \
     src/databasemanager.h \
     src/additionaldatacollector.h \
     src/watchdistro.h \
-    src/fileio.h
+    src/fileio.h \
+    src/logger.h
 
 TARGET = eta-register
 

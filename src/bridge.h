@@ -30,6 +30,7 @@ class QDBusInterface;
 class DatabaseManager;
 class AdditionalDataCollector;
 class WatchDistro;
+class Logger;
 
 class Bridge : public QObject
 {
@@ -44,9 +45,15 @@ public:
     Q_INVOKABLE void hideKeyboard();
     Q_INVOKABLE void getData(const QString &code);
 
+    Q_INVOKABLE void doesExist();
     Q_INVOKABLE void isOnline();
+
     Q_PROPERTY(QString result READ result
-               NOTIFY close NOTIFY showGui NOTIFY resultRecieved)
+               NOTIFY close
+               NOTIFY showGui
+               NOTIFY resultRecieved
+               NOTIFY online
+               NOTIFY offline)
 
     QString resultStr;
     QString result() const;
@@ -60,6 +67,7 @@ private:
     QString touch;
     QString cpu;
     QString mac;
+    Logger *logger;
 
 private slots:
     void gotResult(QString s, bool b);
@@ -68,6 +76,8 @@ signals:
     void close();
     void showGui();
     void resultRecieved();
+    void online();
+    void offline();
     void infoCollected(const QStringList &datas);
     void dbError(const int &errorType);
 

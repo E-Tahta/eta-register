@@ -25,6 +25,8 @@
 #include <QString>
 
 class QDir;
+class Logger;
+
 class FileIO : public QObject
 {
     Q_OBJECT
@@ -43,6 +45,7 @@ private:
     QString fullpath;
     QStringList l;
     QDir *d;
+    Logger *logger;
 
 public slots:
 

@@ -24,10 +24,10 @@
 #include "databasemanager.h"
 #include "additionaldatacollector.h"
 #include "watchdistro.h"
+#include "logger.h"
 
 #include <QDBusConnection>
 #include <QDBusInterface>
-#include <QDebug>
 
 Bridge::Bridge(QObject *parent) :
     QObject(parent),
@@ -41,6 +41,11 @@ Bridge::Bridge(QObject *parent) :
     dbm = new DatabaseManager(this);
     adc = new AdditionalDataCollector(this);
     wd = new WatchDistro(this);
+    logger = new Logger(this);
+
+    logger->log("running as " + logger->yellow_color
+                + logger->getUser() + logger->no_color);
+
 
     if (adc != NULL) {
         adc->collectAdditionalInfos();
@@ -107,6 +112,9 @@ void Bridge::gotResult(QString s, bool b)
         out = "Request "+s+" is "+b;
     }
     resultStr = out;
+
+    logger->log(resultStr);
+
     emit resultRecieved();
 }
 
@@ -114,16 +122,9 @@ void Bridge::gotResult(QString s, bool b)
 void Bridge::isOnline()
 {
     if ( nm-> isOnline() ) {
-        if (mac == "") {
-            qDebug() << "Could not get MAC ID";
-            qDebug() << "Exiting ...";
-            exit(1);
-        }
-        else {
-            rm->doesMacIdExist(mac,touch,cpu);
-        }
+        emit online();
     } else {
-        emit close();
+        emit offline();
     }
 }
 
@@ -141,3 +142,18 @@ void Bridge::getData(const QString &code)
 {
     dbm->getInfo(code);
 }
+
+void Bridge::doesExist()
+{
+    if (mac == "") {
+        logger->log(logger->red_color
+                    + "Could not get MAC ID. Exiting ..."
+                    + logger->no_color);
+        exit(1);
+    }
+    else {
+        rm->doesMacIdExist(mac,touch,cpu);
+    }
+}
+
+

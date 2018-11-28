@@ -1,7 +1,7 @@
 #include "watchdistro.h"
 #include "fileio.h"
+#include "logger.h"
 
-#include <QDebug>
 #include <QStringList>
 #include <curl/curl.h>
 #include <iostream>
@@ -11,6 +11,7 @@
 WatchDistro::WatchDistro(QObject *parent) : QObject(parent)
 {
     f = new FileIO(this);
+    logger = new Logger(this);
 }
 
 void WatchDistro::watch()
@@ -38,12 +39,12 @@ bool WatchDistro::checkDay()
     if (lastDate.length() > 0) {
         int x = QString::compare(lastDate[0], currentDate, Qt::CaseInsensitive);
         if (x == 0) {
-            qDebug() << "Distro is already been watched";
+            logger->log("Distro is already been watched");
             return true;
         }
     }
 
-    qDebug() << "Distro is not watched";
+    logger->log("Distro is not watched");
 
     return false;
 }

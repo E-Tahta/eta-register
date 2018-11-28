@@ -19,35 +19,46 @@
  *****************************************************************************/
 
 #include "networkmanager.h"
+#include "logger.h"
 #include <QList>
 #include <QNetworkInterface>
+#include <QtNetwork>
 
 NetworkManager::NetworkManager(QObject *parent) :
     QObject(parent),
     mac("")
 {
-
+    logger = new Logger(this);
 }
 
 bool NetworkManager::isOnline()
 {
-    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
-    bool result = false;
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol
+                && address != QHostAddress(QHostAddress::LocalHost)) {
+            logger->log("IP Address: "
+                        + logger->green_color
+                        + address.toString()
+                        + logger->no_color);
 
-    for (int i = 0; i < ifaces.count(); i++) {
+            logger->log( "trying to reach server"
+                         + logger->no_color);
 
-        QNetworkInterface iface = ifaces.at(i);
-        if ( iface.flags().testFlag(QNetworkInterface::IsUp)
-             && !iface.flags().testFlag(QNetworkInterface::IsLoopBack)) {
-
-            for (int j=0; j<iface.addressEntries().count(); j++) {
-                if (result == false)
-                    result = true;
+            QNetworkAccessManager nam;
+            QNetworkRequest req(QUrl("http://193.140.98.145/phpmyadmin"));
+            QNetworkReply *reply = nam.get(req);
+            QEventLoop loop;
+            connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+            loop.exec();
+            if (reply->bytesAvailable()) {
+                logger->log(logger->green_color
+                            + "server available"
+                            + logger->no_color);
+                return true;
             }
         }
     }
-
-    return result;
+    return false;
 }
 
 void NetworkManager::setMac()

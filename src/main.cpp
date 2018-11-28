@@ -20,6 +20,7 @@
 #include "src/bridge.h"
 #include "src/singleinstance.h"
 #include "src/detectiwb.h"
+#include "src/logger.h"
 
 #include <signal.h>
 #include <unistd.h>
@@ -37,10 +38,15 @@ static int setup_unix_signal_handlers();
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+
     DetectIWB iwb;
+    Logger logger;
 
     if (!iwb.isIWB()) {
-        qDebug() << "Could not detect IWB aborting";
+        logger.log(logger.red_color
+                   + "Could not detect IWB aborting"
+                   + logger.no_color);
         return 1;
     }
 
@@ -55,7 +61,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Bridge>("eta.bridge",1,0,"Bridge");
     QApplication::setWindowIcon( QIcon(ICONPATH) );
-    QApplication app(argc, argv);
     app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
     QString pidName = SINGLE_INSTANCE;

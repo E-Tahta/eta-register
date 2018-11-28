@@ -25,7 +25,6 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 #include <QNetworkReply>
-#include <QDebug>
 
 
 RequestManager::RequestManager(QObject *parent) :

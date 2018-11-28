@@ -23,6 +23,7 @@
 
 #include <QObject>
 
+class Logger;
 
 class NetworkManager : public QObject
 {
@@ -35,6 +36,8 @@ public:
 
 private:
     QString mac;
+
+    Logger *logger;
 
 public slots:
     bool isOnline();

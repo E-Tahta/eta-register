@@ -1,6 +1,5 @@
 #include "additionaldatacollector.h"
 #include "detectiwb.h"
-#include <QDebug>
 #include <QString>
 #include <cpuid.h>
 #include <iostream>

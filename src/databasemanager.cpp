@@ -1,4 +1,5 @@
 #include "databasemanager.h"
+#include "logger.h"
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -13,6 +14,7 @@ DatabaseManager::DatabaseManager(QObject *parent) :
     m_town(""),
     m_school("")
 {
+    logger = new Logger(this);
     DatabaseConnect();
 }
 
@@ -30,11 +32,19 @@ void DatabaseManager::DatabaseConnect()
         db = QSqlDatabase::addDatabase(DRIVER);
         db.setDatabaseName(DATABASE_PATH);
         if(!db.open()) {
-            qDebug() << "Database connect error : " << QString(db.lastError().text()).toLatin1().data();
+            logger->log(logger->red_color
+                        + "Database connect error: "
+                        + QString(db.lastError()
+                                  .text()).toLatin1().data()
+                        + logger->no_color);
         }
     }
     else {
-        qWarning() << "Database driver error " << DRIVER;
+        logger->log(logger->red_color
+                    + "Database connect error: "
+                    + QString(db.lastError()
+                              .text()).toLatin1().data()
+                    + logger->no_color);
     }
 
 }

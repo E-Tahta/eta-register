@@ -4,6 +4,7 @@
 #include <QObject>
 
 class FileIO;
+class Logger;
 
 #define DW_URL "https://distrowatch.com/table.php?distribution=pardus"
 
@@ -22,6 +23,7 @@ private:
     bool goUrl();
 
     FileIO *f;
+    Logger *logger;
 
 
 signals:

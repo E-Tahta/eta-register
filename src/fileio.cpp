@@ -18,14 +18,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 #include "fileio.h"
+#include "logger.h"
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
 #include <QString>
 #include <QDate>
-
-#include <QDebug>
 
 #define CONFIG_FILE "/.config/eta/eta-register"
 #define IWB_INFO_FILE "/usr/share/eta/eta-check-inputdevice/type-of-iwb"
@@ -34,19 +33,25 @@ FileIO::FileIO(QObject *parent) :
     QObject(parent)
 {
     d = new QDir(QDir::home());
+    logger = new Logger(this);
+
     filepath = d->homePath() + QString::fromLatin1(CONFIG_FILE);
     filename = "data.eta";
     fullpath = filepath + "/" + filename;
 
     QFileInfo checkFile(fullpath);
     if(!checkFile.exists() || !checkFile.isFile()) {
-        qDebug() << "Creating config file";
+        logger->log(logger->green_color
+                    + "Creating config file"
+                    + logger->no_color);
         d->mkpath(filepath);
         QFile file(fullpath);
         if (file.open(QIODevice::ReadWrite)) {
             file.close();
         } else {
-            qDebug() << file.errorString();
+            logger->log(logger->red_color
+                        + file.errorString()
+                        + logger->no_color);
         }
     }
 }
@@ -59,7 +64,9 @@ QStringList FileIO::readData()
         d->mkpath(filepath);
         QFile file(fullpath);
         if (!file.open(QIODevice::ReadOnly)) {
-            qDebug() << "Could not open data file while trying to read";
+            logger->log(logger->red_color
+                        + "Could not open data file while trying to read"
+                        + logger->no_color);
         } else {
             QTextStream in(&file);
             while (!in.atEnd()) {
@@ -69,7 +76,9 @@ QStringList FileIO::readData()
         }
 
     } else {
-        qDebug() << "Data file does not exist or corrupted";
+        logger->log(logger->red_color
+                    + "Data file does not exist or corrupted"
+                    + logger->no_color);
     }
     return l;
 }
@@ -92,7 +101,9 @@ void FileIO::writeData()
     }
     QFile file(fullpath);
     if (!file.open(QIODevice::WriteOnly)) {
-        qDebug() << "Could not open data file while trying to write";
+        logger->log(logger->red_color
+                    + "Could not open data file while trying to write"
+                    + logger->no_color);
     } else {
         QTextStream out(&file);
         out << data;
@@ -111,8 +122,11 @@ QString FileIO::readIWBInfo() const
         content = stream.readAll();
         file.close();
     } else {
-        qDebug() << QString(file.errorString() + " : " + file.fileName()).toLatin1().data();
-        qDebug() << "Exiting ...";
+        logger->log(logger->red_color
+                    + QString(file.errorString() + " : "
+                              + file.fileName()).toLatin1().data()
+                    + " Exiting ..."
+                    + logger->no_color);
         exit(1);
     }
     return content;

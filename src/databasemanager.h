@@ -6,6 +6,8 @@
 #include <QStringList>
 #include <QSqlDatabase>
 
+class Logger;
+
 class DatabaseManager : public QObject
 {
     Q_OBJECT
@@ -23,6 +25,8 @@ private:
     QString m_town;
     QString m_school;
     QSqlDatabase db;
+
+    Logger *logger;
 
     void DatabaseConnect();
     bool getCity(QString &cityName);
